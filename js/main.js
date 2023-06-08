@@ -46,11 +46,19 @@ function createDiceGeometry() {
             position.y = subCube.y + addition.y;
             position.z = subCube.z + addition.z;
         }
+        
+        const notchWave = (v) => {
+            v = (1 / params.notchRadius) * v;
+            v = Math.PI * Math.max(-1, Math.min(1, v));
+            return params.notchDepth * (Math.cos(v) + 1.);
+        }
+        
+        const notch = (pos) => notchWave(pos[0]) * notchWave(pos[1]);
 
         position.setXYZ(i, position.x, position.y, position.z);
         
     }
-    
+
 // all the modifications of geometryBase.attributes.position
     geometryBase.deleteAttribute('normal');
     geometryBase.deleteAttribute('uv');
