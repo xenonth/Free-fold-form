@@ -1,5 +1,6 @@
 import * as CANNON from 'https://cdn.skypack.dev/cannon-es';
 import * as THREE from 'three';
+// mergeVertices() requires the import of BufferGeometryUtils file
 import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js';
 
 const params = {
@@ -46,8 +47,18 @@ function createDiceGeometry() {
             position.z = subCube.z + addition.z;
         }
 
+        position.setXYZ(i, position.x, position.y, position.z);
         
     }
+    
+// all the modifications of geometryBase.attributes.position
+    geometryBase.deleteAttribute('normal');
+    geometryBase.deleteAttribute('uv');
+    geometryBase = BufferGeometryUtils.mergeVertices(geometryBase);
+    
+    geometryBase.computeVertexNormals();
 
     return boxGeometry;
 }
+
+boxGeometry;
