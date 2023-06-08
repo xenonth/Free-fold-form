@@ -22,6 +22,15 @@ function createDiceGeometry() {
 
         let position = new THREE.Vector3().fromBufferAttribute(positionAttribute, i);
 
+                //setting rounded edge
+                const subCube = new THREE.Vector3(
+                    Math.sign(position.x),
+                    Math.sign(position.y),
+                    Math.sign(position.z)
+                ).multiplyScalar(subCubeHalfSize);
+            
+                const addition = new THREE.Vector3().subVectors(position, subCubeEdges);
+
         // modify position.x, position.y and position.z
 
         positionAttribute.setXYZ(i, position.x, position.y, position.z);
@@ -35,6 +44,7 @@ function createDiceGeometry() {
         } else if (Math.abs(position.y) > subCubeHalfSize && Math.abs(position.z) > subCubeHalfSize) {
             // position is close to box edge that's parallel to X axis
         }
+
         
     }
 
