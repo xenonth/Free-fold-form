@@ -55,6 +55,35 @@ function createDiceGeometry() {
         
         const notch = (pos) => notchWave(pos[0]) * notchWave(pos[1]);
 
+        if (position.y === .5) {
+            position.y -= notch([position.x, position.z]);
+        } else if (position.x === .5) {
+            position.x -= notch([position.y + offset, position.z + offset]);
+            position.x -= notch([position.y - offset, position.z - offset]);
+        } else if (position.z === .5) {
+            position.z -= notch([position.x - offset, position.y + offset]);
+            position.z -= notch([position.x, position.y]);
+            position.z -= notch([position.x + offset, position.y - offset]);
+        } else if (position.z === -.5) {
+            position.z += notch([position.x + offset, position.y + offset]);
+            position.z += notch([position.x + offset, position.y - offset]);
+            position.z += notch([position.x - offset, position.y + offset]);
+            position.z += notch([position.x - offset, position.y - offset]);
+        } else if (position.x === -.5) {
+            position.x += notch([position.y + offset, position.z + offset]);
+            position.x += notch([position.y + offset, position.z - offset]);
+            position.x += notch([position.y, position.z]);
+            position.x += notch([position.y - offset, position.z + offset]);
+            position.x += notch([position.y - offset, position.z - offset]);
+        } else if (position.y === -.5) {
+            position.y += notch([position.x + offset, position.z + offset]);
+            position.y += notch([position.x + offset, position.z]);
+            position.y += notch([position.x + offset, position.z - offset]);
+            position.y += notch([position.x - offset, position.z + offset]);
+            position.y += notch([position.x - offset, position.z]);
+            position.y += notch([position.x - offset, position.z - offset]);
+        }
+
         position.setXYZ(i, position.x, position.y, position.z);
         
     }
