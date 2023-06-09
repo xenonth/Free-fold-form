@@ -163,3 +163,24 @@ function createDiceMesh() {
 
     return diceMesh;
 }
+
+function render() {
+    // recalculate the physics world
+    physicsWorld.fixedStep();
+
+    // apply recalculated values to visible elements 
+    for (const dice of diceArray) {
+        dice.mesh.position.copy(dice.body.position)
+    }
+
+    // redraw the scene
+    renderer.render(scene, camera);
+    requestAnimationFrame(render);
+}
+
+function throwDice() {
+    diceArray.forEach((d, dIdx) => {
+        d.body.position = new CANNON.Vec3(5, dIdx * 1.5, 0); // the floor is placed at y = -7
+        d.mesh.position.copy(d.body.position);
+    });
+}
