@@ -98,4 +98,42 @@ function createDiceGeometry() {
     return boxGeometry;
 }
 
+function createInnerGeometry() {
+    
+    // keep the plane size equal to flat surface of cube
+    const baseGeometry = new THREE.PlaneGeometry(1 - 2 * params.edgeRadius, 1 - 2 * params.edgeRadius);
+    
+    // place planes a bit behind the box sides
+    const offset = .48;
+
+    // and merge them as we already have BufferGeometryUtils file loaded :)
+    return BufferGeometryUtils.mergeBufferGeometries([
+        baseGeometry.clone().translate(0, 0, offset),
+        baseGeometry.clone().translate(0, 0, -offset),
+        baseGeometry.clone().rotateX(.5 * Math.PI).translate(0, -offset, 0),
+        baseGeometry.clone().rotateX(.5 * Math.PI).translate(0, offset, 0),
+        baseGeometry.clone().rotateY(.5 * Math.PI).translate(-offset, 0, 0),
+        baseGeometry.clone().rotateY(.5 * Math.PI).translate(offset, 0, 0),
+    ], false);
+}
+
+function createDiceMesh() {
+    const boxMaterialOuter = new THREE.MeshStandardMaterial({
+        color: 0xeeeeee,
+    })
+    const boxMaterialInner = new THREE.MeshStandardMaterial({
+        color: 0x000000,
+        roughness: 0,
+        metalness: 1,
+        side: THREE.DoubleSide
+    })
+
+    const diceMesh = new THREE.Group();
+    const innerMesh = new THREE.Mesh(createInnerGeometry(), boxMaterialInner);
+    const outerMesh = new THREE.Mesh(createBoxGeometry(), boxMaterialOuter);
+    diceMesh.add(innerMesh, outerMesh);
+
+    return diceMesh;
+}
+
 boxGeometry;
