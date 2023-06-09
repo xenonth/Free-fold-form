@@ -11,6 +11,34 @@ const params = {
 //variable for boxGeometry
 let boxGeometry = new THREE.BoxGeometry(1, 1, 1, params.segments, params.segments, params.segments);
 
+//variable for the physics engine
+let physicsWorld = new CANNON.World({})
+
+//function creating a floor space for the dice to be rolled on
+function createFloor() {
+    
+    // Three.js (visible) object
+    const floor = new THREE.Mesh(
+        new THREE.PlaneGeometry(1000, 1000),
+        new THREE.ShadowMaterial({
+            opacity: .1
+        })
+    )
+    floor.receiveShadow = true;
+    floor.position.y = -7;
+    floor.quaternion.setFromAxisAngle(new THREE.Vector3(-1, 0, 0), Math.PI * .5);
+    scene.add(floor);
+
+    // Cannon-es (physical) object
+    const floorBody = new CANNON.Body({
+        type: CANNON.Body.STATIC,
+        shape: new CANNON.Plane(),
+    });
+    floorBody.position.copy(floor.position);
+    floorBody.quaternion.copy(floor.quaternion);
+    physicsWorld.addBody(floorBody);
+}
+
 //Dice maker function 
 
 function createDiceGeometry() {
@@ -135,5 +163,3 @@ function createDiceMesh() {
 
     return diceMesh;
 }
-
-boxGeometry;
