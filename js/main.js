@@ -40,6 +40,13 @@ function initScene() {
     // ...
 }
 
+//Dice events listener
+function addDiceEvents(dice) {
+    dice.body.addEventListener('sleep', (e) => {
+        // ...
+    });
+}
+
 //function creating a floor space for the dice to be rolled on
 function createFloor() {
     
