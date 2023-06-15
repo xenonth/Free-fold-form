@@ -8,6 +8,9 @@ const params = {
     edgeRadius: .07
 };
 
+//check to see if main.js is being read
+console.log("IF YOU SEE ME IM WORKING");
+
 //variable for boxGeometry
 let boxGeometry = new THREE.BoxGeometry(1, 1, 1, params.segments, params.segments, params.segments);
 
