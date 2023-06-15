@@ -193,7 +193,16 @@ function render() {
 
 function throwDice() {
     diceArray.forEach((d, dIdx) => {
+        // to reset the velocity dice got on the previous throw
+        d.body.velocity.setZero();
+        d.body.angularVelocity.setZero();
+        
+        //set initial position
         d.body.position = new CANNON.Vec3(5, dIdx * 1.5, 0); // the floor is placed at y = -7
         d.mesh.position.copy(d.body.position);
+
+        // set initial rotation
+        d.mesh.rotation.set(2 * Math.PI * Math.random(), 0, 2 * Math.PI * Math.random())
+        d.body.quaternion.copy(d.mesh.quaternion);
     });
 }
