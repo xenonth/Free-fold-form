@@ -14,6 +14,16 @@ let boxGeometry = new THREE.BoxGeometry(1, 1, 1, params.segments, params.segment
 //variable for the physics engine
 let physicsWorld = new CANNON.World({})
 
+
+//function initiating a downward force on the dice.
+function initPhysics() {
+    physicsWorld = new CANNON.World({
+        allowSleep: true,
+        gravity: new CANNON.Vec3(0, -50, 0),
+    })
+    physicsWorld.defaultContactMaterial.restitution = .3;
+}
+
 //function creating a floor space for the dice to be rolled on
 function createFloor() {
     
