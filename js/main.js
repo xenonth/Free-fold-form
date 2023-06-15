@@ -43,7 +43,16 @@ function initScene() {
 //Dice events listener
 function addDiceEvents(dice) {
     dice.body.addEventListener('sleep', (e) => {
-        // ...
+        dice.body.allowSleep = false;
+
+        // check the dice rotation
+        
+        if (lyingOnSide) {
+            // show result
+        } else {
+            // landed on edge => wait to fall on side and fire the event again
+            dice.body.allowSleep = true;
+        }
     });
 }
 
@@ -197,6 +206,17 @@ function createDiceMesh() {
     return diceMesh;
 }
 
+function createDice() {
+    // ...
+    
+    const body = new CANNON.Body({
+        // ...
+        sleepTimeLimit: .1 // change from default 1 sec to 100ms
+    });
+    
+    // ...
+}
+
 function render() {
     // recalculate the physics world
     physicsWorld.fixedStep();
@@ -231,5 +251,8 @@ function throwDice() {
             new CANNON.Vec3(-force, force, 0),
             new CANNON.Vec3(0, 0, .2)
         );
+
+        // track body velocity again for new throw
+        d.body.allowSleep = true;
     });
 }
