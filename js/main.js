@@ -183,7 +183,8 @@ function render() {
 
     // apply recalculated values to visible elements 
     for (const dice of diceArray) {
-        dice.mesh.position.copy(dice.body.position)
+        dice.mesh.position.copy(dice.body.position);
+        dice.mesh.quaternion.copy(dice.body.quaternion);
     }
 
     // redraw the scene
@@ -204,5 +205,10 @@ function throwDice() {
         // set initial rotation
         d.mesh.rotation.set(2 * Math.PI * Math.random(), 0, 2 * Math.PI * Math.random())
         d.body.quaternion.copy(d.mesh.quaternion);
+        
+        const force = 3 + 5 * Math.random();
+        d.body.applyImpulse(
+            new CANNON.Vec3(-force, force, 0)
+        );
     });
 }
