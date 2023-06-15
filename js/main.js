@@ -27,6 +27,19 @@ function initPhysics() {
     physicsWorld.defaultContactMaterial.restitution = .3;
 }
 
+//creating the intial scene
+function initScene() {
+
+    // ...
+
+    for (let i = 0; i < params.numberOfDice; i++) {
+        diceArray.push(createDice());
+        addDiceEvents(diceArray[i]);
+    }
+
+    // ...
+}
+
 //function creating a floor space for the dice to be rolled on
 function createFloor() {
     
@@ -208,7 +221,8 @@ function throwDice() {
         
         const force = 3 + 5 * Math.random();
         d.body.applyImpulse(
-            new CANNON.Vec3(-force, force, 0)
+            new CANNON.Vec3(-force, force, 0),
+            new CANNON.Vec3(0, 0, .2)
         );
     });
 }
